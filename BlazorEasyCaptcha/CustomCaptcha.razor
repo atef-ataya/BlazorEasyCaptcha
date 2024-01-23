@@ -17,6 +17,8 @@
 
     [Parameter]
     public int CaptchaTextLength { get; set; }
+    [Parameter] 
+    public bool EnableVerboseLogging { get; set; } = false;
 
     private string captchaText;
     private string userInput;
