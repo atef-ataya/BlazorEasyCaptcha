@@ -1,6 +1,8 @@
 @using System.Text;
 @using Microsoft.Extensions.Localization
 @using System.Globalization
+@using Microsoft.Extensions.Logging
+@using BlazorEasyCaptcha.Locales
 
 <div class="captcha">
     <span class="captcha-text" @onclick="RefreshCaptcha">@captchaText</span>
@@ -9,12 +11,13 @@
 
 @code {
     [Inject]
-    public IStringLocalizer<Resource> Localizer { get; set; }
+    public IStringLocalizer<CaptchaResource> Localizer { get; set; }
     [Parameter]
     public EventCallback<bool> OnCaptchaValidation { get; set; }
     [Inject]
     public ILogger<CustomCaptcha> Logger { get; set; }
 
+    // Setup Parameters
     [Parameter]
     public int CaptchaTextLength { get; set; }
     [Parameter] 
@@ -30,10 +33,11 @@
         try
         {
             GenerateCaptcha();
+            Log("Captcha generated successfully.", LogLevel.Debug);
         }
         catch (Exception ex)
         {
-            Logger.LogError($"An error has occurred in the CustomCaptcha component: {ex.Message}");
+             Log($"Initialization failed: {ex.Message}", LogLevel.Error);
         }
     }
 
@@ -61,10 +65,11 @@
             GenerateCaptcha();
             userInput = "";
             validationResult = "";
+            Log("Captcha refreshed.", LogLevel.Debug);
         }
         catch (Exception ex)
         {
-            Logger.LogError($"An error has occurred in the CustomCaptcha component: {ex.Message}");
+            Log($"Error refreshing captcha: {ex.Message}", LogLevel.Error);
         }
     }
     public void ValidateCaptcha()
@@ -73,13 +78,24 @@
         {
             bool isValid = string.Equals(captchaText, userInput, StringComparison.OrdinalIgnoreCase);
             OnCaptchaValidation.InvokeAsync(isValid);
+            Log($"Captcha validation result: {isValid}", LogLevel.Debug);
+
             if (!isValid)
                 RefreshCaptcha();
         }
         catch (Exception ex)
         {
-            Logger.LogError($"An error has occurred in the CustomCaptcha component: {ex.Message}");
+            Log($"Error in captcha validation: {ex.Message}", LogLevel.Error);
         }
     }
+
+    private void Log(string message, LogLevel level = LogLevel.Information)
+    {
+        if (EnableVerboseLogging || level >= LogLevel.Warning)
+        {
+            Logger.Log(level, message);
+        }
+    }
+
 
 }
