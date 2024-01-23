@@ -1,0 +1,81 @@
+@using System.Text;
+
+<div class="captcha">
+    <span class="captcha-text" @onclick="RefreshCaptcha">@captchaText</span>
+    <input type="text" @bind="userInput" placeholder="@Localizer["CaptchaMessage"]" required />
+</div>
+
+@code {
+    [Inject]
+    public IStringLocalizer<Resource> Localizer { get; set; }
+    [Parameter]
+    public EventCallback<bool> OnCaptchaValidation { get; set; }
+    [Inject]
+    public ILogger<CustomCaptcha> Logger { get; set; }
+
+    [Parameter]
+    public int CaptchaTextLength { get; set; }
+
+    private string captchaText;
+    private string userInput;
+    private string validationResult = "";
+    private readonly string captchaCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            GenerateCaptcha();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"An error has occured in the CustomCaptcha component: {ex.Message}");
+        }
+    }
+
+    private void GenerateCaptcha()
+    {
+        captchaText = GenerateRandomText(TextLength); 
+    }
+
+    private string GenerateRandomText(int length)
+    {
+        var random = new Random();
+        var result = new StringBuilder();
+        for (int i = 0; i < length; i++)
+        {
+            int index = random.Next(captchaCharacters.Length);
+            result.Append(captchaCharacters[index]);
+        }
+        return result.ToString();
+    }
+
+    private void RefreshCaptcha()
+    {
+        try
+        {
+            GenerateCaptcha();
+            userInput = "";
+            validationResult = "";
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"An error has occured in the CustomCaptcha component: {ex.Message}");
+        }
+    }
+    public void ValidateCaptcha()
+    {
+        try
+        {
+            bool isValid = string.Equals(captchaText, userInput, StringComparison.OrdinalIgnoreCase);
+            OnCaptchaValidation.InvokeAsync(isValid);
+            if (!isValid)
+                RefreshCaptcha();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"An error has occured in the CustomCaptcha component: {ex.Message}");
+        }
+    }
+
+}
