@@ -18,7 +18,7 @@
     public ILogger<CustomCaptcha> Logger { get; set; }
 
     [Parameter]
-    public int CaptchaTextLength { get; set; }
+    public int CaptchaTextLength { get; set; } = 6;
     [Parameter] 
     public bool EnableVerboseLogging { get; set; } = false;
 
