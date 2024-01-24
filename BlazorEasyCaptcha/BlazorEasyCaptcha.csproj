@@ -7,7 +7,7 @@
 	<PackageId>BlazorEasyCaptcha</PackageId>
 	<Version>1.0.0</Version>
 	<Authors>Atef Ataya</Authors>
-	<Company>YourCompany</Company>
+	<Company>UltraThoughts</Company>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageReleaseNotes>Initial release of BlazorEasyCaptcha.</PackageReleaseNotes>
