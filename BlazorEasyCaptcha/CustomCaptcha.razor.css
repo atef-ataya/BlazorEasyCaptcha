@@ -22,6 +22,7 @@
     width: 50% !important;
     float: right;
 }
+
 span.captcha-error {
     display: inline-block;
     float: left;
@@ -43,21 +44,4 @@ body.rtl span.captcha-error {
     float: left;
     width: 50%;
     margin-bottom: 20px;
-}
-.mobile-captcha {
-    position: fixed;
-    bottom: 2px;
-    background: #f5f5f5;
-    text-align: center;
-    width: 100%;
-    z-index: 999;
-    transition: all 0.2s;
-    box-shadow: 0px -7px 18px #848484;
-    display: none;
-}
-.mobile-captcha.down {
-    bottom: -210px;
-}
-.captcha-tbl img#CaptchaImage {
-    user-select: none;
 }
