@@ -22,8 +22,6 @@
     public int CaptchaTextLength { get; set; }
     [Parameter] 
     public bool EnableVerboseLogging { get; set; } = false;
-    [Parameter]
-    public string CaptchaCharacters { get; set; } 
 
     private string captchaText;
     private string userInput;
@@ -60,7 +58,7 @@
         return result.ToString();
     }
 
-    private void RefreshCaptcha()
+    private void RefreshCaptcha()   
     {
         try
         {
