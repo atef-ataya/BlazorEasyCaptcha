@@ -11,7 +11,9 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageReleaseNotes>Initial release of BlazorEasyCaptcha.</PackageReleaseNotes>
-	<PackageTags>Blazor;Captcha;Component</PackageTags>	
+	<PackageTags>Blazor;Captcha;Component</PackageTags>
+	<RazorLangVersion>Latest</RazorLangVersion>
+	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,7 +22,6 @@
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Locales\CaptchaResource.Designer.cs">
       <DesignTime>True</DesignTime>
